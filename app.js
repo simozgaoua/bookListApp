@@ -1,6 +1,6 @@
 //Book Class : Represents a Book
 class Book{
-    constractor(title,auteur,isbn){
+    constructor(title,auteur,isbn){
        this.title = title;
        this.auteur = auteur;
        this.isbn = isbn;
@@ -42,6 +42,12 @@ class UI{
 
         list.appendChild(row);
     }
+
+    static clearFeilds(){
+        document.querySelector('#title').value = '';
+        document.querySelector('#auteur').value = '';
+        document.querySelector('#isbn').value = '';
+    }
 }
 
 // Store Class: Handles Storage
@@ -50,5 +56,21 @@ class UI{
 document.addEventListener('DOMContentLoaded',UI.displayBooks);
 
 //Event : add Book
+document.querySelector('#book-form').addEventListener('submit',(e)=>{
+    //prevent actual submit
+    e.preventDefault();
+    //get form values
+    const title = document.querySelector('#title').value;
+    const autuer = document.querySelector('#auteur').value;
+    const isbn = document.querySelector('#isbn').value;
+
+    //instatiate book
+    const book = new Book(title,autuer,isbn);
+    //add book to UI
+    UI.addBookToList(book);
+    //clear feilds
+    UI.clearFeilds();
+    
+});
 
 //Event : remove Book
