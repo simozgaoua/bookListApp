@@ -1,26 +1,26 @@
 //Book Class : Represents a Book
-class Book{
-    constructor(title,auteur,isbn){
-       this.title = title;
-       this.auteur = auteur;
-       this.isbn = isbn;
+class Book {
+    constructor(title, auteur, isbn) {
+        this.title = title;
+        this.auteur = auteur;
+        this.isbn = isbn;
     }
 }
 
 // UI Class: Handle UI Tasks
 
-class UI{
-    static displayBooks(){
+class UI {
+    static displayBooks() {
         const StoredBooks = [
             {
-                title : 'Book One',
-                auteur : 'simo zgaoua',
-                isbn : '123456'
+                title: 'Book One',
+                auteur: 'simo zgaoua',
+                isbn: '123456'
             },
             {
-                title : 'Book Two',
+                title: 'Book Two',
                 auteur: 'jane doe',
-                isbn : '98765'
+                isbn: '98765'
             }
         ];
 
@@ -29,10 +29,10 @@ class UI{
         books.forEach((book) => UI.addBookToList(book));
     }
 
-    static addBookToList(book){
+    static addBookToList(book) {
         const list = document.querySelector('#book-list');
         const row = document.createElement('tr');
-        
+
         row.innerHTML = `
           <td>${book.title}</td>
           <td>${book.auteur}</td>
@@ -43,7 +43,13 @@ class UI{
         list.appendChild(row);
     }
 
-    static clearFeilds(){
+    static deleteBook(el) {
+        if (el.classList.contains('delete')) {
+            el.parentEemnet.parentEemnet.remove();
+        }
+    }
+
+    static clearFeilds() {
         document.querySelector('#title').value = '';
         document.querySelector('#auteur').value = '';
         document.querySelector('#isbn').value = '';
@@ -53,10 +59,10 @@ class UI{
 // Store Class: Handles Storage
 
 //Event : display Book
-document.addEventListener('DOMContentLoaded',UI.displayBooks);
+document.addEventListener('DOMContentLoaded', UI.displayBooks);
 
 //Event : add Book
-document.querySelector('#book-form').addEventListener('submit',(e)=>{
+document.querySelector('#book-form').addEventListener('submit', (e) => {
     //prevent actual submit
     e.preventDefault();
     //get form values
@@ -65,12 +71,16 @@ document.querySelector('#book-form').addEventListener('submit',(e)=>{
     const isbn = document.querySelector('#isbn').value;
 
     //instatiate book
-    const book = new Book(title,autuer,isbn);
+    const book = new Book(title, autuer, isbn);
     //add book to UI
     UI.addBookToList(book);
     //clear feilds
     UI.clearFeilds();
-    
+
 });
 
 //Event : remove Book
+document.querySelector('#book-list').addEventListener('click', (e) => {
+    //remove book from UI
+    UI.deleteBook(e.target);
+})
