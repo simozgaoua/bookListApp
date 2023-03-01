@@ -44,9 +44,22 @@ class UI {
     }
 
     static deleteBook(el) {
-        if (el.classList.contains('delete')) {
-            el.parentEemnet.parentEemnet.remove();
-        }
+       if(el.classList.contains('delete')){
+           el.parentElement.parentElement.remove();
+       }
+    }
+
+    static showAlert(message,className){
+        const div = document.createElement('div');
+        div.className = `alert alert-${className}`;
+        div.appendChild(document.createTextNode(message));
+        const container = document.querySelector('.container');
+        const form = document.querySelector('#book-form');
+        //we will insert it before form (its parent is container) insertBefore(insert this,before this)
+        container.insertBefore(div,form);
+
+        //vanish in 3seconds
+        setTimeout(() => document.querySelector('.alert').remove , 3000);
     }
 
     static clearFeilds() {
@@ -70,12 +83,19 @@ document.querySelector('#book-form').addEventListener('submit', (e) => {
     const autuer = document.querySelector('#auteur').value;
     const isbn = document.querySelector('#isbn').value;
 
-    //instatiate book
+    //validate
+    if(title === '' || autuer === '' || isbn === ''){
+        UI.showAlert('please fill in all the feilds','danger');
+    }
+    else {
+     //instatiate book
     const book = new Book(title, autuer, isbn);
     //add book to UI
     UI.addBookToList(book);
     //clear feilds
     UI.clearFeilds();
+    }
+
 
 });
 
